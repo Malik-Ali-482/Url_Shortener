@@ -1,0 +1,419 @@
+/* Container for the analytics dashboard */
+.analytics-dashboard {
+  max-width: 1400px;
+  margin: 2rem auto;
+  padding: 0 1rem;
+}
+
+/* Controls for the dashboard */
+.dashboard-controls {
+  display: flex;
+  gap: 1rem;
+  margin: 2rem 0;
+  align-items: center;
+}
+
+/* New preset selector added */
+.preset-selector {
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+}
+
+
+
+.stats-row {
+  margin-bottom: 24px;
+}
+
+
+/* Existing stat-card with hover animation remains unchanged */
+.stat-card {
+  margin-bottom: 1rem;
+  transition: transform 0.2s;
+}
+
+.stat-card:hover {
+  transform: translateY(-3px);
+}
+
+/* Preserving the stat-content layout */
+.stat-content {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+/* Updated chart-card styling */
+.chart-card {
+  margin-bottom: 24px;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Updated error-alert styling */
+.error-alert {
+  background: #ff4d4f;
+  color: white;
+  padding: 12px;
+  border-radius: 8px;
+  margin: 16px 0;
+}
+
+.line-graph {
+
+  
+  width: 80vw;
+}
+
+/* Media queries for dashboard controls and additional responsiveness */
+@media (max-width: 768px) {
+  .dashboard-controls {
+    flex-direction: column;
+    gap: 12px;
+  }
+  
+  .preset-selector {
+    margin: 12px 0;
+  }
+  
+  .ant-radio-group {
+    width: 100%;
+  }
+  
+  .ant-radio-button-wrapper {
+    flex: 1;
+    text-align: center;
+  }
+}
+
+/* History Container and Related Styles */
+.history-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 30px;
+  font-family: 'Roboto', sans-serif;
+  background-color: #f9f9f9; /* Light background */
+  color: #121212; /* Dark text for readability */
+}
+
+h1 {
+  text-align: center;
+  font-size: 2.5em;
+  color: #007FFF; /* Blue text */
+  margin-bottom: 30px;
+}
+
+.user-data {
+  background-color: #fff; /* White background for user data */
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+  margin-bottom: 30px;
+}
+
+.user-data h2 {
+  font-size: 1.8em;
+  color: #007FFF; /* Blue text */
+  margin-bottom: 15px;
+}
+
+.user-data ul {
+  list-style-type: none;
+  padding-left: 0;
+}
+
+.user-data li {
+  font-size: 1.1em;
+  margin: 5px 0;
+  color: #333; /* Dark text */
+}
+
+button {
+  background-color: #007FFF;
+  color: white;
+  padding: 12px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 1.1em;
+  transition: background-color 0.3s ease;
+}
+
+button:hover {
+  background-color: #005b8b;
+}
+
+/* Short URL analysis section */
+.short-url-analyze {
+  background-color: #fff; /* White background for analysis section */
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+}
+
+.short-url-analyze input {
+  padding: 12px;
+  font-size: 1.1em;
+  width: 75%;
+  margin-right: 10px;
+  border: 2px solid #444;
+  border-radius: 5px;
+  background-color: #fff;
+  color: #121212;
+}
+
+.short-url-analyze input:focus {
+  border-color: #00aaff;
+  background-color: #222;
+}
+
+.short-url-analyze button {
+  margin-top: 10px;
+  width: 100%;
+}
+
+
+/* Error message styling for other alerts (if needed) */
+.error-message {
+  color: red;
+  font-size: 1.2em;
+  margin-top: 15px;
+  font-weight: bold;
+}
+
+/* History details styling */
+.history-details {
+  margin-top: 30px;
+}
+
+.history-details h2 {
+  font-size: 2em;
+  color: #007FFF; /* Blue text */
+}
+
+.history-details h3 {
+  font-size: 1.5em;
+  color: #555; /* Darker text for subheadings */
+}
+
+.history-details ul {
+  list-style-type: none;
+  padding-left: 0;
+}
+
+.history-details li {
+  font-size: 1.1em;
+  margin: 5px 0;
+  color: #333; /* Dark text */
+}
+
+/* Charts section */
+.charts {
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+  margin-top: 30px;
+}
+
+.pie-chart,
+.bar-chart {
+  width: 100%;
+  height: 400px;
+  padding: 20px;
+  background-color: #fff; /* White background for charts */
+  border-radius: 8px;
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+}
+
+.pie-chart h3,
+.bar-chart h3 {
+  font-size: 1.3em;
+  color: #007FFF; /* Blue text */
+  margin-bottom: 15px;
+}
+
+.pie-chart canvas,
+.bar-chart canvas {
+  width: 100%;
+  height: 300px !important;
+}
+
+button:focus {
+  outline: none;
+}
+
+.user-data button {
+  margin-top: 15px;
+}
+
+.user-data button:hover {
+  background-color: #005b8b;
+}
+
+.history-details p {
+  font-size: 1.1em;
+  color: #555; /* Darker text for additional info */
+  margin-top: 10px;
+}
+
+/* Hero Section */
+.hero-section {
+  background: linear-gradient(135deg, #007FFF 0%, #00C49F 100%);
+  padding: 4rem 2rem;
+  border-radius: 16px;
+  margin-bottom: 3rem;
+  color: white;
+  text-align: center;
+}
+
+.hero-title {
+  color: white !important;
+  font-size: 2.5rem !important;
+  margin-bottom: 1rem !important;
+}
+
+.hero-subtitle {
+  font-size: 1.2rem;
+  margin-bottom: 2rem;
+  display: block;
+  opacity: 0.9;
+}
+
+.hero-actions {
+  max-width: 600px;
+  margin: 0 auto;
+  display: flex;
+  gap: 1rem;
+}
+
+/* Updated analytics input styling */
+.analytics-input {
+  padding: 8px 12px;              /* Updated from 0.75rem to 8px 12px */
+  border: 2px solid #007FFF;
+  border-radius: 8px;
+  font-size: 16px;                /* Updated font size */
+  transition: all 0.3s;
+  flex: 1;                        /* Preserved from original */
+}
+
+.analytics-input:focus {
+  border-color: #00C49F;          /* New focus color */
+  outline: none;
+}
+
+button {
+  background: #ffffff;
+  color: #007FFF;
+  padding: 12px 30px;
+  border-radius: 8px;
+  font-weight: 600;
+  transition: all 0.3s;
+  border: 2px solid transparent;
+}
+
+button:hover {
+  background: #007FFF;
+  color: white;
+  border-color: white;
+}
+
+
+/* Sections */
+.section-title {
+  text-align: center;
+  margin: 3rem 0 !important;
+  color: #2c3e50 !important;
+}
+
+.section-subtitle {
+  color: #007FFF !important;
+  margin-bottom: 1.5rem !important;
+}
+
+.split-section {
+  margin: 3rem 0;
+}
+
+/* Insights List */
+.insights-list {
+  list-style: none;
+  padding: 0;
+}
+
+.insights-list li {
+  padding: 1rem;
+  margin: 0.5rem 0;
+  background: #f8f9fa;
+  border-radius: 8px;
+  position: relative;
+  padding-left: 2.5rem;
+}
+
+.insights-list li:before {
+  content: '✓';
+  position: absolute;
+  left: 1rem;
+  color: #00C49F;
+  font-weight: bold;
+}
+
+/* Feature Cards */
+.feature-card {
+  text-align: center;
+  border: none !important;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s;
+}
+
+.feature-card:hover {
+  transform: translateY(-5px);
+}
+
+.feature-icon {
+  font-size: 2.5rem;
+  color: #007FFF;
+  margin-bottom: 1rem;
+}
+
+.feature-title {
+  color: #2c3e50 !important;
+}
+
+
+/* Additional responsiveness for history container */
+@media (max-width: 768px) {
+  .history-container {
+    padding: 15px;
+  }
+
+  .user-data ul {
+    padding-left: 20px;
+  }
+
+  .short-url-analyze input {
+    width: 80%;
+    margin-bottom: 10px;
+  }
+
+  .charts {
+    gap: 15px;
+  }
+
+  .pie-chart,
+  .bar-chart {
+    height: 250px;
+  }
+
+  .history-details h2 {
+    font-size: 1.8em;
+  }
+
+  .history-details h3 {
+    font-size: 1.3em;
+  }
+
+  .history-details ul {
+    padding-left: 20px;
+  }
+}
