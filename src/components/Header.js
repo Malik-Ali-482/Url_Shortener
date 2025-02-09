@@ -18,9 +18,9 @@ function Header() {
       <nav className="nav">
         <Link className="nav-link" to="/">Home</Link>
         <Link className="nav-link" to="/history">Analytics</Link>
-        <Link className="nav-link" to="/">About us</Link>
-        <Link className="nav-link" to="/history">Contact us</Link>
-      </nav>
+        <Link className="nav-link" to="/aboutus">About us</Link>
+        <Link className="nav-link" to="/contactus">Contact us</Link>
+      </nav> 
 
       {/* User Profile Icon */}
       <button className="profile-button">
