@@ -3,14 +3,16 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Header from "./components/Header";
 import Footer from "./components/Footer";
 import Home from "./pages/Home";
-import History from "./pages/History";
+import Analytics from "./pages/Analytics";
+import Aboutus from "./pages/Aboutus";
+import Contactus from "./pages/Contactus";
 import Login from "./pages/Login";
 import Profile from "./pages/Profile";
 import AuthContext, { AuthProvider } from "./Utils/authContext"; // Correct import
 import "./App.css";
 
 function App() {
-    const { token, login, logout } = useContext(AuthContext); // Using new AuthContext
+    const { token, logout } = useContext(AuthContext); // Using new AuthContext
 
     // 🔹 Token verification on app load
     useEffect(() => {
@@ -42,7 +44,9 @@ function App() {
                 <Header />
                 <Routes>
                     <Route path="/" element={<Home />} />
-                    <Route path="/history" element={<History />} />
+                    <Route path="/analytics" element={<Analytics />} />
+                    <Route path="/aboutus" element={<Aboutus />} />
+                    <Route path="/contactus" element={<Contactus />} />
                     <Route path="/login" element={<Login />} />
                     <Route path="/profile" element={<Profile />} />
                 </Routes>

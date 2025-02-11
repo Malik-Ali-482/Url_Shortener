@@ -7,7 +7,7 @@ import { Spin, Card, Row, Col, DatePicker, Radio, Typography } from "antd";
 import { ClockCircleOutlined, CalendarOutlined, RiseOutlined, LinkOutlined, DashboardOutlined, PieChartOutlined, BarChartOutlined } from "@ant-design/icons";
 import dayjs from "dayjs";
 import minMax from "dayjs/plugin/minMax";
-import "./History.css";
+import "./Analytics.css";
 
 dayjs.extend(minMax);
 
