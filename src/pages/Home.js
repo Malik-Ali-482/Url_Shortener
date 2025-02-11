@@ -6,18 +6,20 @@ import { FaRegCheckCircle, FaChartLine, FaQrcode, FaUsers, FaGlobe } from "react
 import { MdCalendarMonth, MdOutlineContactPhone } from "react-icons/md";
 
 function Page() {
+  console.log(localStorage.getItem("token"));
   const [originalUrl, setOriginalUrl] = useState("");
   const [shortUrl, setShortUrl] = useState("");
   const [enableQrCode, setEnableQrCode] = useState(false);
   const [activeQA, setActiveQA] = useState(null); // Track the active Q/A item
 
+  const token = localStorage.getItem("token");
   const handleSubmit = (e) => {
     e.preventDefault();
-    axios
-      .post("http://localhost:8001/url", {
-        url: originalUrl,
-        generateQr: enableQrCode,
-      })
+
+    axios.post("http://localhost:8001/url/", 
+      { url: originalUrl }, // Send data separately
+      { headers: { Authorization: token ? `Bearer ${token}` : "" } } // Headers should be a separate object
+    )
       .then((res) => {
         setShortUrl(res.data);
       })
