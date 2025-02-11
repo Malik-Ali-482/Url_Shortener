@@ -10,9 +10,19 @@ function Header() {
     const [isDropdownOpen, setIsDropdownOpen] = useState(false);
     const navigate = useNavigate();
 
+<<<<<<< HEAD
     const toggleDropdown = () => {
         setIsDropdownOpen(!isDropdownOpen);
     };
+=======
+      {/* Navigation Links */}
+      <nav className="nav">
+        <Link className="nav-link" to="/">Home</Link>
+        <Link className="nav-link" to="/history">Analytics</Link>
+        <Link className="nav-link" to="/aboutus">About us</Link>
+        <Link className="nav-link" to="/contactus">Contact us</Link>
+      </nav> 
+>>>>>>> 40d82903cf8515f929742e6b798d8060537a1424
 
     const handleProfileClick = () => {
         navigate('/profile');
