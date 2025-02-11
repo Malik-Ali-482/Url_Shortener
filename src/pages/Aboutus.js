@@ -140,12 +140,6 @@ const Aboutus = () => {
   );
 }
 
-<<<<<<< HEAD
-export default Aboutus;
-
-// https://cdn.pixabay.com/photo/2015/07/17/22/43/student-849822_1280.jpg
-=======
 export default Aboutus
 
 // https://cdn.pixabay.com/photo/2015/07/17/22/43/student-849822_1280.jpg
->>>>>>> 40d82903cf8515f929742e6b798d8060537a1424
