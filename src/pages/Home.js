@@ -1,31 +1,35 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import axios from "axios";
-import "./Home.css"; // Make sure your CSS reflects these changes
-import { FaRegCheckCircle, FaChartLine, FaQrcode, FaUsers, FaGlobe } from "react-icons/fa"; // Import icons from react-icons
+import "./Home.css";
+import { FaRegCheckCircle, FaChartLine, FaQrcode, FaUsers, FaGlobe } from "react-icons/fa";
 import { MdCalendarMonth, MdOutlineContactPhone } from "react-icons/md";
 
 function Page() {
-  console.log(localStorage.getItem("token"));
   const [originalUrl, setOriginalUrl] = useState("");
   const [shortUrl, setShortUrl] = useState("");
   const [enableQrCode, setEnableQrCode] = useState(false);
-  const [activeQA, setActiveQA] = useState(null); // Track the active Q/A item
+  const [activeQA, setActiveQA] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
 
   const token = localStorage.getItem("token");
-  const handleSubmit = (e) => {
-    e.preventDefault();
 
-    axios.post("http://localhost:8001/url/", 
-      { url: originalUrl }, // Send data separately
-      { headers: { Authorization: token ? `Bearer ${token}` : "" } } // Headers should be a separate object
-    )
-      .then((res) => {
-        setShortUrl(res.data);
-      })
-      .catch((err) => {
-        console.error(err);
-      });
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    if (!originalUrl) return;
+    
+    setIsLoading(true);
+    try {
+      const res = await axios.post("http://localhost:8001/url/", 
+        { url: originalUrl },
+        { headers: { Authorization: token ? `Bearer ${token}` : "" } }
+      );
+      setShortUrl(res.data);
+    } catch (err) {
+      console.error(err);
+      alert("Error shortening URL. Please try again.");
+    }
+    setIsLoading(false);
   };
 
   const toggleQA = (index) => {
@@ -38,44 +42,59 @@ function Page() {
       <section className="hero">
         <div className="hero-content">
           <h1>Shorten, Track, and Engage with Ease</h1>
-          <p>
-            Use our URL shortener, QR Codes, and landing pages to engage your audience and connect them to the right information. Build, edit, and track everything inside the Bitly Connections Platform.
+          <p className="hero-subtitle">
+            Transform your links into powerful marketing tools with real-time analytics 
+            and customizable QR codes.
           </p>
-          <div className="url-shortener">
-            <input
-              type="text"
-              placeholder="Enter URL"
-              value={originalUrl}
-              onChange={(e) => setOriginalUrl(e.target.value)}
-              className="url-input"
-            />
-            <div className="qr-code-checkbox">
+          
+          <form onSubmit={handleSubmit} className="url-shortener">
+            <div className="input-group">
               <input
-                type="checkbox"
-                id="enable-qr"
-                checked={enableQrCode}
-                onChange={(e) => setEnableQrCode(e.target.checked)}
+                type="url"
+                placeholder="Paste your long URL here..."
+                value={originalUrl}
+                onChange={(e) => setOriginalUrl(e.target.value)}
+                className="url-input"
+                required
               />
-              <label htmlFor="enable-qr">Enable QR Code Display</label>
-            </div>
-            <button onClick={handleSubmit} className="cta-button">
-              Shorten
-            </button>
-          </div>
-          {shortUrl && (
-            <div className="short-url-result">
-              <p>Shortened URL:</p>
-              <a href={shortUrl.id} target="_blank" rel="noopener noreferrer">
-                {shortUrl.id}
-              </a>
               <br />
-              {enableQrCode && shortUrl.qrcode && (
-                <img
-                  src={shortUrl.qrcode}
-                  alt="QR Code"
-                  className="qr-image"
+
+              <button type="submit" className="cta-button" disabled={isLoading}>
+                {isLoading ? (
+                  <div className="spinner"></div>
+                ) : (
+                  'Shorten Now'
+                )}
+              </button>
+            </div>
+            
+            <div className="qr-code-checkbox">
+              
+                <input
+                  type="checkbox"
+                  checked={enableQrCode}
+                  onChange={(e) => setEnableQrCode(e.target.checked)}
+                  className="hidden-checkbox"
                 />
-              )}
+                <span className="label-text">Generate QR Code</span>
+              
+            </div>
+          </form>
+
+          {shortUrl && (
+            <div className="result-container">
+              <div className="result-box">
+                <p className="result-label">Shortened URL:</p>
+                <a href={shortUrl.id} className="result-link">
+                  {shortUrl.id}
+                </a>
+                {enableQrCode && shortUrl.qrcode && (
+                  <div className="qr-container">
+                    <img src={shortUrl.qrcode} alt="QR Code" className="qr-image" />
+                    <button className="download-button">Download QR</button>
+                  </div>
+                )}
+              </div>
             </div>
           )}
         </div>

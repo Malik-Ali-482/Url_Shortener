@@ -30,6 +30,10 @@ function Header() {
         localStorage.removeItem("token");
     };
 
+    const toggleDropdown = () => {
+        setIsDropdownOpen(!isDropdownOpen);
+    };
+
     return (
         <header className="header">
             {/* Logo */}
@@ -51,7 +55,7 @@ function Header() {
             {/* Conditional Rendering based on token */}
             {token ? (
                 <div className="profile-dropdown">
-                    <button className="profile-button" >
+                    <button className="profile-button" onClick={toggleDropdown}>
                         <FaUserCircle size={30} />
                     </button>
                     {isDropdownOpen && (
