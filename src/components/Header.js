@@ -51,7 +51,7 @@ function Header() {
             {/* Conditional Rendering based on token */}
             {token ? (
                 <div className="profile-dropdown">
-                    <button className="profile-button" onClick={toggleDropdown}>
+                    <button className="profile-button" >
                         <FaUserCircle size={30} />
                     </button>
                     {isDropdownOpen && (

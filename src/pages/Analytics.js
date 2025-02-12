@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { Pie, Bar, Line } from "react-chartjs-2";
-import { Chart as ChartJS, Title, Tooltip, Legend, ArcElement, BarElement, CategoryScale, LinearScale, PointElement, LineElement } from "chart.js";
+import { Chart as ChartJS, Title, Tooltip, Legend, ArcElement, BarElement, CategoryScale, LinearScale, PointElement, LineElement,Filler } from "chart.js";
 import { Spin, Card, Row, Col, DatePicker, Radio, Typography } from "antd";
 import { ClockCircleOutlined, CalendarOutlined, RiseOutlined, LinkOutlined, DashboardOutlined, PieChartOutlined, BarChartOutlined } from "@ant-design/icons";
 import dayjs from "dayjs";
@@ -13,7 +13,7 @@ dayjs.extend(minMax);
 
 ChartJS.register(
   Title, Tooltip, Legend, ArcElement, BarElement, 
-  CategoryScale, LinearScale, PointElement, LineElement
+  CategoryScale, LinearScale, PointElement, LineElement, Filler
 );
 
 const { Title: AntTitle, Text } = Typography;
@@ -32,7 +32,7 @@ const ClickHistory = () => {
   const processAnalyticsData = (analytics, range) => {
     let filteredData = analytics;
     let startDate, endDate;
-
+  
     if (range && range[0] && range[1]) {
       startDate = dayjs(range[0]).startOf("day");
       endDate = dayjs(range[1]).endOf("day");
@@ -43,11 +43,11 @@ const ClickHistory = () => {
     } else if (analytics.length > 0) {
       const dates = analytics.map(({ timestamp }) => dayjs(timestamp));
       startDate = dayjs.min(dates);
-      endDate = dayjs.max(dates);
+      endDate = dayjs().endOf("day"); // Ensure today is included
     } else {
       return { dailyData: {}, hourlyData: [], dateArray: [] };
     }
-
+  
     // Generate complete date sequence
     const dateArray = [];
     let currentDate = startDate.clone();
@@ -55,24 +55,24 @@ const ClickHistory = () => {
       dateArray.push(currentDate);
       currentDate = currentDate.add(1, "day");
     }
-
+  
     const dailyData = dateArray.reduce((acc, date) => {
       const key = date.format("YYYY-MM-DD");
       acc[key] = 0;
       return acc;
     }, {});
-
+  
     const hourlyData = new Array(24).fill(0);
-    
+  
     filteredData.forEach(({ timestamp }) => {
       const date = dayjs(timestamp);
       const dayKey = date.format("YYYY-MM-DD");
       const hour = date.hour();
-      
+  
       dailyData[dayKey] += 1;
       hourlyData[hour] += 1;
     });
-
+  
     // Calculate statistics
     const days = Object.keys(dailyData);
     const totalClicks = filteredData.length;
@@ -81,15 +81,20 @@ const ClickHistory = () => {
     const maxDailyDate = dateArray.find(
       date => dailyData[date.format("YYYY-MM-DD")] === maxDailyEntry
     );
-
+  
     setStats({
       totalClicks,
       averageDaily: averageDaily.toFixed(1),
       maxDaily: maxDailyEntry,
       peakHour: hourlyData.indexOf(Math.max(...hourlyData)),
       busiestDay: maxDailyDate?.format("MMM D, YYYY") || "N/A",
-      deviceData: { desktop: 65, mobile: 30, tablet: 5 } 
+      deviceData: { desktop: 65, mobile: 30, tablet: 5 }
     });
+
+    console.log("Date Array:", dateArray.map(d => d.format("YYYY-MM-DD")));
+console.log("Daily Data:", dailyData);
+console.log("Today's Clicks:", dailyData[dayjs().format("YYYY-MM-DD")]);
+console.log("Busiest Day:", maxDailyDate?.format("MMM D, YYYY"));
 
     return {
       dailyData,
@@ -127,14 +132,23 @@ const ClickHistory = () => {
       setError("Please enter a valid Short ID.");
       return;
     }
-
+  
     setLoading(true);
     try {
-      const res = await axios.get(`http://localhost:8001/url/analytics/${shortId}`);
+      const token = localStorage.getItem("token"); // Retrieve token from storage
+      const res = await axios.get(`http://localhost:8001/url/analytics/${shortId}`, {
+        headers: { Authorization: `Bearer ${token}` } // Send auth header
+      });
       setRawAnalytics(res.data.analytics);
       setError(null);
     } catch (err) {
-      setError("Failed to fetch analytics. Please try again.");
+      if (err.response && err.response.status === 401) {
+        setError("Unauthorized access. Please log in again.");
+        localStorage.removeItem("token");
+        setTimeout(() => (window.location.href = "/login"), 1500); // Redirect to login
+      } else {
+        setError("Failed to fetch analytics. Please try again.");
+      }
     } finally {
       setLoading(false);
     }
@@ -253,31 +267,31 @@ const ClickHistory = () => {
           <section className="chart-section">
             <AntTitle level={3} className="section-title">Daily Click Trends</AntTitle>
             <Card className="chart-card line-graph">
-              <Line
-                data={{
-                  labels: processedData.dateArray,
-                  datasets: [{
-                    label: "Clicks",
-                    data: processedData.dateArray.map(date => processedData.dailyData[date]),
-                    borderColor: "#007FFF",
-                    tension: 0.3,
-                    fill: true,
-                    backgroundColor: "rgba(0, 127, 255, 0.1)"
-                  }]
-                }}
-                options={{
-                  responsive: true,
-                  plugins: {
-                    legend: { display: false },
-                    tooltip: { mode: "index", intersect: false }
-                  },
-                  scales: {
-                    x: { grid: { display: false } },
-                    y: { beginAtZero: true }
-                  }
-                }}
-                style={{ height: "80vh" }}
-              />
+            <Line
+  data={{
+    labels: processedData.dateArray,
+    datasets: [{
+      label: "Clicks",
+      data: processedData.dateArray.map(date => processedData.dailyData[date]),
+      borderColor: "#007FFF",
+      tension: 0.3,
+      fill: true,
+      backgroundColor: "rgba(0, 127, 255, 0.1)"
+    }]
+  }}
+  options={{
+    responsive: true,
+    plugins: {
+      legend: { display: false },
+      tooltip: { mode: "index", intersect: false }
+    },
+    scales: {
+      x: { grid: { display: false } },
+      y: { beginAtZero: true }
+    }
+  }}
+  style={{ height: "80vh" }}
+/>
             </Card>
           </section>
 
